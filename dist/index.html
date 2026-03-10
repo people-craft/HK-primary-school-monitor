@@ -1,0 +1,978 @@
+
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>香港小学升学监控 2027/28 | 男宝·2021年5月生</title>
+<style>
+  :root {
+    --primary: #1a56db;
+    --primary-dark: #1e3a8a;
+    --primary-light: #dbeafe;
+    --accent: #3b82f6;
+    --danger: #dc2626;
+    --danger-light: #fee2e2;
+    --warning: #d97706;
+    --warning-light: #fef3c7;
+    --success: #16a34a;
+    --success-light: #dcfce7;
+    --gray-50: #f8fafc;
+    --gray-100: #f1f5f9;
+    --gray-200: #e2e8f0;
+    --gray-600: #475569;
+    --gray-800: #1e293b;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans HK', 'PingFang HK', sans-serif;
+    background: var(--gray-50);
+    color: var(--gray-800);
+    line-height: 1.6;
+  }
+
+  /* Header */
+  .header {
+    background: linear-gradient(135deg, #1e3a8a 0%, #1a56db 60%, #60a5fa 100%);
+    color: white;
+    padding: 24px 20px 20px;
+    text-align: center;
+  }
+  .header h1 { font-size: 1.6rem; font-weight: 700; margin-bottom: 8px; }
+  .header .subtitle { opacity: 0.9; font-size: 0.95rem; }
+  .header .meta {
+    margin-top: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+  }
+  .meta-tag {
+    background: rgba(255,255,255,0.18);
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 0.82rem;
+    border: 1px solid rgba(255,255,255,0.3);
+  }
+  .check-date {
+    margin-top: 10px;
+    font-size: 0.82rem;
+    opacity: 0.75;
+  }
+
+  /* Alert box */
+  .alert-section {
+    background: var(--danger-light);
+    border-left: 5px solid var(--danger);
+    margin: 16px 16px 0;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .alert-header {
+    background: var(--danger);
+    color: white;
+    padding: 10px 16px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .alert-item {
+    padding: 12px 16px;
+    border-bottom: 1px solid #fca5a5;
+    font-size: 0.88rem;
+  }
+  .alert-item:last-child { border-bottom: none; }
+  .alert-item strong { color: var(--danger); }
+
+  /* No-alert box */
+  .no-alert {
+    background: var(--success-light);
+    border-left: 5px solid var(--success);
+    margin: 16px 16px 0;
+    border-radius: 10px;
+    padding: 14px 16px;
+    font-size: 0.9rem;
+    color: #166534;
+  }
+
+  /* Tips section */
+  .tips-section {
+    background: white;
+    border: 1px solid var(--gray-200);
+    border-radius: 12px;
+    margin: 16px;
+    overflow: hidden;
+  }
+  .tips-header {
+    background: var(--primary-light);
+    border-bottom: 1px solid #bfdbfe;
+    padding: 12px 16px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--primary-dark);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .tips-body { padding: 14px 16px; font-size: 0.88rem; }
+  .tips-body ul { padding-left: 18px; }
+  .tips-body li { margin-bottom: 6px; color: var(--gray-600); }
+  .tips-body li strong { color: var(--gray-800); }
+
+  /* Filter buttons */
+  .filter-bar {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 14px 16px 8px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .filter-bar::-webkit-scrollbar { display: none; }
+  .filter-btn {
+    flex-shrink: 0;
+    padding: 7px 16px;
+    border-radius: 20px;
+    border: 1.5px solid var(--primary);
+    background: white;
+    color: var(--primary);
+    font-size: 0.84rem;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.18s;
+  }
+  .filter-btn.active, .filter-btn:hover {
+    background: var(--primary);
+    color: white;
+  }
+
+  /* Section titles */
+  .section-title {
+    font-size: 0.82rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--gray-600);
+    padding: 4px 16px 8px;
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* Cards grid */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 14px;
+    padding: 0 16px 16px;
+  }
+
+  /* School card */
+  .school-card {
+    background: white;
+    border-radius: 14px;
+    border: 1.5px solid var(--gray-200);
+    overflow: hidden;
+    transition: box-shadow 0.2s, border-color 0.2s;
+    position: relative;
+  }
+  .school-card:hover { box-shadow: 0 4px 20px rgba(26,86,219,0.12); border-color: var(--accent); }
+  .school-card.has-update { border-color: #f59e0b; }
+  .school-card.urgent { border-color: var(--danger); }
+
+  .card-header {
+    padding: 14px 14px 10px;
+    border-bottom: 1px solid var(--gray-100);
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .rank-badge {
+    background: var(--primary);
+    color: white;
+    border-radius: 8px;
+    min-width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+  }
+  .rank-badge.gold { background: linear-gradient(135deg, #f59e0b, #b45309); }
+  .rank-badge.silver { background: linear-gradient(135deg, #64748b, #334155); }
+  .rank-badge.warn { background: #ef4444; }
+
+  .card-title-block { flex: 1; }
+  .card-name { font-weight: 700; font-size: 0.95rem; line-height: 1.3; }
+  .card-name-en { font-size: 0.76rem; color: var(--gray-600); margin-top: 1px; }
+  .card-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+  .tag {
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 0.72rem;
+    font-weight: 600;
+  }
+  .tag-type { background: var(--primary-light); color: var(--primary-dark); }
+  .tag-district { background: #f0fdf4; color: #166534; }
+  .tag-gender { background: #fdf4ff; color: #7e22ce; }
+  .tag-ib { background: #fff7ed; color: #c2410c; }
+  .tag-dragon { background: #f0f9ff; color: #075985; }
+
+  .card-body { padding: 10px 14px; }
+  .info-row {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 5px;
+    font-size: 0.83rem;
+    align-items: flex-start;
+  }
+  .info-label {
+    color: var(--gray-600);
+    min-width: 64px;
+    flex-shrink: 0;
+    font-size: 0.78rem;
+    margin-top: 1px;
+  }
+  .info-value { color: var(--gray-800); flex: 1; }
+  .info-value.highlight { color: var(--danger); font-weight: 600; }
+  .info-value.pending { color: var(--warning); font-style: italic; }
+
+  /* Star ratings */
+  .stars { color: #f59e0b; font-size: 0.8rem; }
+  .stress-bar {
+    display: flex;
+    gap: 2px;
+    align-items: center;
+  }
+  .stress-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--gray-200);
+  }
+  .stress-dot.filled { background: #ef4444; }
+
+  /* Indicators */
+  .new-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #f59e0b;
+    color: white;
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 8px;
+  }
+  .urgent-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: var(--danger);
+    color: white;
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 8px;
+  }
+
+  .card-footer {
+    padding: 8px 14px 12px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .card-link {
+    flex: 1;
+    text-align: center;
+    background: var(--primary-light);
+    color: var(--primary);
+    border-radius: 8px;
+    padding: 6px;
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 600;
+    transition: background 0.15s;
+  }
+  .card-link:hover { background: var(--accent); color: white; }
+
+  /* Warning card */
+  .school-card.caution .card-header { background: #fff7ed; }
+  .school-card.female .rank-badge { background: #db2777; }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 24px 16px;
+    font-size: 0.78rem;
+    color: var(--gray-600);
+    border-top: 1px solid var(--gray-200);
+    background: white;
+    margin-top: 8px;
+  }
+
+  @media (max-width: 480px) {
+    .header h1 { font-size: 1.3rem; }
+    .cards-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<div class="header">
+  <h1>🏫 香港小学升学信息监控</h1>
+  <div class="subtitle">2027/28学年 小一入学 | 直资 · 私立学校</div>
+  <div class="meta">
+    <span class="meta-tag">👦 男宝·2021年5月生</span>
+    <span class="meta-tag">🔬 重STEAM</span>
+    <span class="meta-tag">🌿 低压优先</span>
+    <span class="meta-tag">💰 预算10万以内</span>
+  </div>
+  <div class="check-date">📅 本次检查日期：2026年3月10日 | 共监控 20 所学校</div>
+</div>
+
+<!-- ===== ALERT SECTION ===== -->
+<div class="alert-section">
+  <div class="alert-header">🚨 重要提醒 & 行动建议</div>
+  <div class="alert-item">
+    <strong>⚠️【英华小学 — 报名窗口极短，全程追踪！】</strong><br>
+    参考2026/27年度：报名窗口仅 <strong>约5天</strong>（2025年8月30日–9月5日），简介会于7月举行。
+    2027/28年度预计报名约 2026年8月底至9月初。<strong>请务必提前标注日历、开启学校官网通知！</strong>⚠️注意：英华为男校，但竞争极激烈。
+  </div>
+  <div class="alert-item">
+    <strong>📋【王锦辉 HKBUAS — 简介会名额极抢手】</strong><br>
+    参考2026/27年度：简介会2025年5月10日举行，报名系统开放5–10分钟内额满，下午场5分钟售罄。
+    2027/28年度简介会预计约 <strong>2026年5月</strong>，届时需即时抢票。
+  </div>
+  <div class="alert-item">
+    <strong>📋【播道书院 — 约6月开放申请】</strong><br>
+    参考2026/27年度：申请窗口 2025年6月12日–8月1日，面试于9月进行。2027/28预计约<strong>2026年6月</strong>开放网上申请。
+  </div>
+  <div class="alert-item">
+    <strong>📋【优才书院 — 约5月开放报名】</strong><br>
+    历年约每年5月开放，为资优直资学校，名额有限。2027/28预计约<strong>2026年5月</strong>开放。
+  </div>
+  <div class="alert-item">
+    <strong>📋【福建附属 FSSAS — 招生系统随时更新】</strong><br>
+    该校招生系统 (ievent.hk) 独立运营，随时可能更新2027/28年度招生信息，建议每月检查。
+  </div>
+</div>
+
+<!-- ===== TIPS SECTION ===== -->
+<div class="tips-section">
+  <div class="tips-header">💡 2026年3月升学时间节点建议</div>
+  <div class="tips-body">
+    <ul>
+      <li><strong>现在（2026年3–4月）</strong>：梳理目标学校清单，预备申请材料（出生证明、护照、照片）；关注王锦辉、优才书院约4–5月发布简介会通知</li>
+      <li><strong>2026年5月</strong>：王锦辉简介会（预计5月），优才书院预计开放报名——即时行动！</li>
+      <li><strong>2026年6月</strong>：播道书院预计开放网上申请（6月12日左右），福建附属关注系统动态</li>
+      <li><strong>2026年7–8月</strong>：港大同学会小学、培正小学、陈守仁预计开放申请；英华小学简介会约7月，报名约8月底——极短窗口，务必准备好</li>
+      <li><strong>2026年9–12月</strong>：面试高峰期，保持弹性，多加练习亲子互动与小朋友表达能力</li>
+      <li><strong>2027年初</strong>：陆续公布录取结果</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ===== FILTER BUTTONS ===== -->
+<div class="filter-bar">
+  <button class="filter-btn active" onclick="filterCards('all')">全部 (20)</button>
+  <button class="filter-btn" onclick="filterCards('top')">🥇 最推荐 (4)</button>
+  <button class="filter-btn" onclick="filterCards('recommended')">🌟 推荐 (6)</button>
+  <button class="filter-btn" onclick="filterCards('backup')">✅ 备选 (6)</button>
+  <button class="filter-btn" onclick="filterCards('caution')">⚠️ 有保留 (4)</button>
+</div>
+
+<!-- ===== SECTION: TOP PICKS ===== -->
+<div class="section-title">🥇 最推荐 — STEAM核心 + 低压环境</div>
+<div class="cards-grid" id="cards-top">
+
+  <!-- 1. HKBUAS -->
+  <div class="school-card" data-cat="top">
+    <div class="urgent-badge">🔥 抢票极难</div>
+    <div class="card-header">
+      <div class="rank-badge gold">1</div>
+      <div class="card-title-block">
+        <div class="card-name">香港浸大附属学校王锦辉中小学</div>
+        <div class="card-name-en">HKBUAS Wong Kam Fai</div>
+        <div class="card-tags">
+          <span class="tag tag-type">直资</span>
+          <span class="tag tag-district">九龙</span>
+          <span class="tag tag-dragon">一条龙</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="info-row"><span class="info-label">STEAM ⭐</span><span class="stars">★★★★★</span></div>
+      <div class="info-row"><span class="info-label">压力指数</span><div class="stress-bar"><div class="stress-dot filled"></div><div class="stress-dot filled"></div><div class="stress-dot"></div><div class="stress-dot"></div><div class="stress-dot"></div></div></div>
+      <div class="info-row"><span class="info-label">学费</span><span class="info-value">$44,800/年（本地课程）</span></div>
+      <div class="info-row"><span class="info-label">简介会</span><span class="info-value highlight">2026/27：2025年5月10日（两场）；2027/28预计2026年5月</span></div>
+      <div class="info-row"><span class="info-label">报名</span><span class="info-value highlight">简介会后约5月12日起开放，1小时内额满！</span></div>
+      <div class="info-row"><span class="info-label">面试</span><span class="info-value pending">2027/28年度待公布</span></div>
+      <div class="info-row"><span class="info-label">注意</span><span class="info-value" style="color:#7c3aed">首间大学附属学校，不参与统一派位，超低压</span></div>
+    </div>
+    <div class="card-footer">
+      <a class="card-link" href="https://www.hkbuas.edu.hk/en/g1-admission" target="_blank">📋 查看招生页面</a>
+    </div>
+  </div>
+
+  <!-- 2. EdUHK JCPS -->
+  <div class="school-card" data-cat="top">
+    <div class="card-header">
+      <div class="rank-badge gold">2</div>
+      <div class="card-title-block">
+        <div class="card-name">香港教育大学赛马会小学</div>
+        <div class="card-name-en">EdUHK JC Primary School</div>
+        <div class="card-tags">
+          <span class="tag tag-type">资助</span>
+          <span class="tag tag-district">大埔</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="info-row"><span class="info-label">STEAM ⭐</span><span class="stars">★★★★★</span></div>
+      <div class="info-row"><span class="info-label">压力指数</span><div class="stress-bar"><div class="stress-dot filled"></div><div class="stress-dot"></div><div class="stress-dot"></div><div class="stress-dot"></div><div class="stress-dot"></div></div></div>
+      <div class="info-row"><span class="info-label">学费</span><span class="info-value">免费（政府资助）</span></div>
+      <div class="info-row"><span class="info-label">招生方式</span><span class="info-value">参与政府「小一入学统筹办法」，自行分配学位（9月）+ 统一派位（12月）</span></div>
+      <div class="info-row"><span class="info-label">开放日</span><span class="info-value pending">2027/28年度待公布，请关注官网</span></div>
+      <div class="info-row"><span class="info-label">注意</span><span class="info-value" style="color:#7c3aed">教大附属，强调探究式学习，大埔区校网</span></div>
+    </div>
+    <div class="card-footer">
+      <a class="card-link" href="https://www.edujcps.edu.hk/" target="_blank">📋 查看官网</a>
+    </div>
+  </div>
+
+  <!-- 3. FSSAS -->
+  <div class="school-card" data-cat="top">
+    <div class="new-badge">⚡ 随时更新</div>
+    <div class="card-header">
+      <div class="rank-badge gold">3</div>
+      <div class="card-title-block">
+        <div class="card-name">福建中学附属学校</div>
+        <div class="card-name-en">Fukien Secondary School Affiliated School</div>
+        <div class="card-tags">
+          <span class="tag tag-type">直资</span>
+          <span class="tag tag-district">观塘</span>
+          <span class="tag tag-dragon">一条龙</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="info-row"><span class="info-label">STEAM ⭐</span><span class="stars">★★★★☆</span></div>
+      <div class="info-row"><span class="info-label">压力指数</span><div class="stress-bar"><div class="stress-dot filled"></div><div class="stress-dot filled"></div><div class="stress-dot"></div><div class="stress-dot"></div><div class="stress-dot"></div></div></div>
+      <div class="info-row"><span class="info-label">简介会</span><span class="info-value pending">2027/28年度待公布（历年约7月）</span></div>
+      <div class="info-row"><span class="info-label">报名</span><span class="info-value pending">独立网上招生系统，随时可能更新——每月检查！</span></div>
+      <div class="info-row"><span class="info-label">特点</span><span class="info-value" style="color:#7c3aed">不参与政府统筹，自设独立招生</span></div>
+      <div class="info-row"><span class="info-label">联系</span><span class="info-value">📞 2606 0670 | admissions@fssas.edu.hk</span></div>
+    </div>
+    <div class="card-footer">
+      <a class="card-link" href="https://fssas-admissions.ievent.hk/" target="_blank">📋 进入招生系统</a>
+    </div>
+  </div>
+
+  <!-- 4. 播道书院 -->
+  <div class="school-card" data-cat="top">
+    <div class="card-header">
+      <div class="rank-badge gold">4</div>
+      <div class="card-title-block">
+        <div class="card-name">播道书院（小学部）</div>
+        <div class="card-name-en">Logos Academy Primary School</div>
+        <div class="card-tags">
+          <span class="tag tag-type">直资</span>
+          <span class="tag tag-district">将军澳</span>
+          <span class="tag tag-dragon">一条龙</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="info-row"><span class="info-label">STEAM ⭐</span><span class="stars">★★★★☆</span></div>
+      <div class="info-row"><span class="info-label">压力指数</span><div class="stress-bar"><div class="stress-dot filled"></div><div class="stress-dot filled"></div><div class="stress-dot"></div><div class="stress-dot"></div><div class="stress-dot"></div></div></div>
+      <div class="info-row"><span class="info-label">学费</span><span class="info-value">$23,700/年</span></div>
+      <div class="info-row"><span class="info-label">简介会</span><span class="info-value pending">2027/28预计2026年6月举行线上/线下简介会</span></div>
+      <div class="info-row"><span class="info-label">报名</span><span class="info-value">2026/27参考：2025年6月12日–8月1日（网上）</span></div>
+      <div class="info-row"><span class="info-label">面试</span><span class="info-value">2026/27参考：2025年9月进行</span></div>
+    </div>
+    <div class="card-footer">
+      <a class="card-link" href="https://www.evangel.edu.hk/ecube/index.php/admission/admission-primary-school/" target="_blank">📋 查看招生详情</a>
+    </div>
+  </div>
+
+</div>
+
+<!-- ===== SECTION: RECOMMENDED ===== -->
+<div class="section-title">🌟 推荐 — STEAM中等 + 探究文化</div>
+<div class="cards-grid" id="cards-recommended">
+
+  <!-- 5. 培正小学 -->
+  <div class="school-card" data-cat="recommended">
+    <div class="card-header">
+      <div class="rank-badge" style="background:#7c3aed">5</div>
+      <div class="card-title-block">
+        <div class="card-name">香港培正小学</div>
+        <div class="card-name-en">Pui Ching Primary School</div>
+        <div class="card-tags">
+          <span class="tag tag-type">私立</span>
+          <span class="tag tag-district">九龙城</span>
+          <span class="tag tag-dragon">直升培正中</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="info-row"><span class="info-label">STEAM ⭐</span><span class="stars">★★★★☆</span></div>
+      <div class="info-row"><span class="info-label">压力指数</span><div class="stress-bar"><div class="stress-dot filled"></div><div class="stress-dot filled"></div><div class="stress-dot filled"></div><div class="stress-dot"></div><div class="stress-dot"></div></div></div>
+      <div class="info-row"><span class="info-label">学费</span><span class="info-value">$66,400/年</span></div>
+      <div class="info-row"><span class="info-label">报名</span><span class="info-value">2026/27参考：2025年7月2日–8月5日（网上）</span></div>
+      <div class="info-row"><span class="info-label">面试</span><span class="info-value">2026/27参考：2025年8月28–29日（首轮）</span></div>
+      <div class="info-row"><span class="info-label">2027/28</span><span class="info-value pending">报名预计2026年7月，关注官网</span></div>
+    </div>
+    <div class="card-footer">
+      <a class="card-link" href="https://www.puiching.edu.hk/" target="_blank">📋 查看官网</a>
+    </div>
+  </div>
+
+  <!-- 6. 真道书院 -->
+  <div class="school-card" data-cat="recommended">
+    <div class="card-header">
+      <div class="rank-badge" style="background:#7c3aed">6</div>
+      <div class="card-title-block">
+        <div class="card-name">真道书院（小学部）</div>
+        <div class="card-name-en">HKCCCU Logos Academy</div>
+        <div class="card-tags">
+          <span class="tag tag-type">直资</span>
+          <span class="tag tag-district">将军澳</span>
+          <span class="tag tag-ib">IB双轨</span>
+          <span class="tag tag-dragon">一条龙</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="info-row"><span class="info-label">STEAM ⭐</span><span class="stars">★★★★☆</span></div>
+      <div class="info-row"><span class="info-label">压力指数</span><div class="stress-bar"><div class="stress-dot filled"></div><div class="stress-dot filled"></div><div class="stress-dot"></div><div class="stress-dot"></div><div class="stress-dot"></div></div></div>
+      <div class="info-row"><span class="info-label">课程</span><span class="info-value">DSE + IB双轨，全球排名33</span></div>
+      <div class="info-row"><span class="info-label">报名</span><span class="info-value pending">2027/28年度待公布，参考历年约5–6月</span></div>
+      <div class="info-row"><span class="info-label">联系</span><span class="info-value">📞 2337 2126</span></div>
+    </div>
+    <div class="card-footer">
+      <a class="card-link" href="https://www.cwgc.edu.hk/" target="_blank">📋 查看官网</a>
+    </div>
+  </div>
+
+  <!-- 7. 基慧小学 -->
+  <div class="school-card" data-cat="recommended">
+    <div class="card-header">
+      <div class="rank-badge" style="background:#7c3aed">7</div>
+      <div class="card-title-block">
+        <div class="card-name">基慧小学（马鞍山）</div>
+        <div class="card-name-en">Kwong Wah Primary School (Ma On Shan)</div>
+        <div class="card-tags">
+          <span class="tag tag-type">资助</span>
+          <span class="tag tag-district">沙田/马鞍山</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="info-row"><span class="info-label">STEAM ⭐</span><span class="stars">★★★★☆</span></div>
+      <div class="info-row"><span class="info-label">压力指数</span><div class="stress-bar"><div class="stress-dot filled"></div><div class="stress-dot"></div><div class="stress-dot"></div><div class="stress-dot"></div><div class="stress-dot"></div></div></div>
+      <div class="info-row"><span class="info-label">学费</span><span class="info-value">免费（政府资助）</span></div>
+      <div class="info-row"><span class="info-label">招生</span><span class="info-value">参与政府统筹办法，按沙田校网</span></div>
+      <div class="info-row"><span class="info-label">开放日</span><span class="info-value pending">2027/28年度待公布，关注官网</span></div>
+    </div>
+    <div class="card-footer">
+      <a class="card-link" href="https://www.kwpms.edu.hk/" target="_blank">📋 查看官网</a>
+    </div>
+  </div>
+
+  <!-- 8. 保良局陈守仁 -->
+  <div class="school-card" data-cat="recommended">
+    <div class="card-header">
+      <div class="rank-badge" style="background:#7c3aed">8</div>
+      <div class="card-title-block">
+        <div class="card-name">保良局陈守仁小学</div>
+        <div class="card-name-en">PLK Chan Siu Kwan Primary School</div>
+        <div class="card-tags">
+          <span class="tag tag-type">直资</span>
+          <span class="tag tag-district">九龙</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="info-row"><span class="info-label">STEAM ⭐</span><span class="stars">★★★☆☆</span></div>
+      <div class="info-row"><span class="info-label">压力指数</span><div class="stress-bar"><div class="stress-dot filled"></div><div class="stress-dot filled"></div><div class="stress-dot"></div><div class="stress-dot"></div><div class="stress-dot"></div></div></div>
+      <div class="info-row"><span class="info-label">学费</span><span class="info-value">$20,500/年（分10期）</span></div>
+      <div class="info-row"><span class="info-label">报名</span><span class="info-value">2026/27参考：2024年8月2–12日（网上）</span></div>
+      <div class="info-row"><span class="info-label">2027/28</span><span class="info-value pending">预计2025年8月初开放（关注官网）</span></div>
+      <div class="info-row"><span class="info-label">注意</span><span class="info-value">近7000人争约100+学位，竞争激烈</span></div>
+    </div>
+    <div class="card-footer">
+      <a class="card-link" href="https://www.plkctslps.edu.hk/tc/content.php?wid=87" target="_blank">📋 查看招生详情</a>
+    </div>
+  </div>
+
+  <!-- 9. 优才书院 -->
+  <div class="school-card" data-cat="recommended">
+    <div class="card-header">
+      <div class="rank-badge" style="background:#7c3aed">9</div>
+      <div class="card-title-block">
+        <div class="card-name">优才（杨殷有娣）书院</div>
+        <div class="card-name-en">G.T. (Ellen Yeung) College</div>
+        <div class="card-tags">
+          <span class="tag tag-type">直资</span>
+          <span class="tag tag-district">将军澳</span>
+          <span class="tag tag-dragon">一条龙</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="info-row"><span class="info-label">STEAM ⭐</span><span class="stars">★★★★★</span></div>
+      <div class="info-row"><span class="info-label">压力指数</span><div class="stress-bar"><div class="stress-dot filled"></div><div class="stress-dot filled"></div><div class="stress-dot"></div><div class="stress-dot"></div><div class="stress-dot"></div></div></div>
+      <div class="info-row"><span class="info-label">特色</span><span class="info-value">全港首间资优教育学校，STEM项目丰富</span></div>
+      <div class="info-row"><span class="info-label">报名</span><span class="info-value highlight">历年约5月开放，2027/28预计2026年5月</span></div>
+      <div class="info-row"><span class="info-label">注意</span><span class="info-value pending">2027/28具体日期待公布，需提前关注</span></div>
+    </div>
+    <div class="card-footer">
+      <a class="card-link" href="https://www.gtcollege.edu.hk/" target="_blank">📋 查看官网</a>
+    </div>
+  </div>
+
+  <!-- 10. 启思小学 -->
+  <div class="school-card" data-cat="recommended">
+    <div class="card-header">
+      <div class="rank-badge" style="background:#7c3aed">10</div>
+      <div class="card-title-block">
+        <div class="card-name">启思小学（九龙城）</div>
+        <div class="card-name-en">Creative Primary School (Kowloon City)</div>
+        <div class="card-tags">
+          <span class="tag tag-type">私立</span>
+          <span class="tag tag-district">九龙城</span>
+          <span class="tag tag-ib">IB认证</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="info-row"><span class="info-label">STEAM ⭐</span><span class="stars">★★★★☆</span></div>
+      <div class="info-row"><span class="info-label">压力指数</span><div class="stress-bar"><div class="stress-dot filled"></div><div class="stress-dot filled"></div><div class="stress-dot"></div><div class="stress-dot"></div><div class="stress-dot"></div></div></div>
+      <div class="info-row"><span class="info-label">课程</span><span class="info-value">IB PYP课程，2005年起授权</span></div>
+      <div class="info-row"><span class="info-label">报名</span><span class="info-value pending">2027/28年度待公布，关注官网</span></div>
+      <div class="info-row"><span class="info-label">学费</span><span class="info-value">约$5–8万/年（私立IB）</span></div>
+    </div>
+    <div class="card-footer">
+      <a class="card-link" href="https://www.cpskg.edu.hk/" target="_blank">📋 查看官网</a>
+    </div>
+  </div>
+
+</div>
+
+<!-- ===== SECTION: BACKUP ===== -->
+<div class="section-title">✅ 备选 — 全人发展 + 低压环境</div>
+<div class="cards-grid" id="cards-backup">
+
+  <!-- 11. 港大同学会 -->
+  <div class="school-card" data-cat="backup">
+    <div class="card-header">
+      <div class="rank-badge silver">11</div>
+      <div class="card-title-block">
+        <div class="card-name">港大同学会小学</div>
+        <div class="card-name-en">HKUGA Primary School</div>
+        <div class="card-tags">
+          <span class="tag tag-type">直资</span>
+          <span class="tag tag-district">柴湾</span>
+          <span class="tag tag-dragon">直升港大同学会书院</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="info-row"><span class="info-label">STEAM ⭐</span><span class="stars">★★★☆☆</span></div>
+      <div class="info-row"><span class="info-label">压力指数</span><div class="stress-bar"><div class="stress-dot filled"></div><div class="stress-dot filled"></div><div class="stress-dot"></div><div class="stress-dot"></div><div class="stress-dot"></div></div></div>
+      <div class="info-row"><span class="info-label">学额</span><span class="info-value">约120个小一学位</span></div>
+      <div class="info-row"><span class="info-label">招生</span><span class="info-value">参考：2026/27面试第二阶段已完成，预计2027/28约2026年4月起公布</span></div>
+      <div class="info-row"><span class="info-label">联系</span><span class="info-value">📞 2202-3922 | info@hkugaps.edu.hk</span></div>
+    </div>
+    <div class="card-footer">
+      <a class="card-link" href="https://www.hkugaps.edu.hk/tc/about-us/admissions" target="_blank">📋 查看招生详情</a>
+    </div>
+  </div>
+
+  <!-- 12. 培侨小学 -->
+  <div class="school-card" data-cat="backup">
+    <div class="card-header">
+      <div class="rank-badge silver">12</div>
+      <div class="card-title-block">
+        <div class="card-name">培侨小学（九龙）</div>
+        <div class="card-name-en">Pui Kiu Primary School</div>
+        <div class="card-tags">
+          <span class="tag tag-type">私立</span>
+          <span class="tag tag-district">九龙城</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="info-row"><span class="info-label">STEAM ⭐</span><span class="stars">★★★☆☆</span></div>
+      <div class="info-row"><span class="info-label">压力指数</span><div class="stress-bar"><div class="stress-dot filled"></div><div class="stress-dot"></div><div class="stress-dot"></div><div class="stress-dot"></div><div class="stress-dot"></div></div></div>
+      <div class="info-row"><span class="info-label">报名</span><span class="info-value pending">2027/28年度待公布，关注官网</span></div>
+    </div>
+    <div class="card-footer">
+      <a class="card-link" href="https://www.puikiu.edu.hk/" target="_blank">📋 查看官网</a>
+    </div>
+  </div>
+
+  <!-- 13. 青松小学 -->
+  <div class="school-card" data-cat="backup">
+    <div class="card-header">
+      <div class="rank-badge silver">13</div>
+      <div class="card-title-block">
+        <div class="card-name">香港道教联合会青松小学</div>
+        <div class="card-name-en">HKTA Ching Chung Primary School</div>
+        <div class="card-tags">
+          <span class="tag tag-type">资助</span>
+          <span class="tag tag-district">元朗</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="info-row"><span class="info-label">STEAM ⭐</span><span class="stars">★★★☆☆</span></div>
+      <div class="info-row"><span class="info-label">压力指数</span><div class="stress-bar"><div class="stress-dot filled"></div><div class="stress-dot"></div><div class="stress-dot"></div><div class="stress-dot"></div><div class="stress-dot"></div></div></div>
+      <div class="info-row"><span class="info-label">招生</span><span class="info-value">参与政府统筹，元朗校网</span></div>
+      <div class="info-row"><span class="info-label">报名</span><span class="info-value pending">关注官网及政府统筹时间表</span></div>
+    </div>
+    <div class="card-footer">
+      <a class="card-link" href="https://www.cctps.edu.hk/" target="_blank">📋 查看官网</a>
+    </div>
+  </div>
+
+  <!-- 14. 保良局陆庆涛 -->
+  <div class="school-card" data-cat="backup">
+    <div class="card-header">
+      <div class="rank-badge silver">14</div>
+      <div class="card-title-block">
+        <div class="card-name">保良局陆庆涛小学</div>
+        <div class="card-name-en">PLK Luk Hing Too Primary School</div>
+        <div class="card-tags">
+          <span class="tag tag-type">资助</span>
+          <span class="tag tag-district">九龙城</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="info-row"><span class="info-label">STEAM ⭐</span><span class="stars">★★★☆☆</span></div>
+      <div class="info-row"><span class="info-label">压力指数</span><div class="stress-bar"><div class="stress-dot filled"></div><div class="stress-dot"></div><div class="stress-dot"></div><div class="stress-dot"></div><div class="stress-dot"></div></div></div>
+      <div class="info-row"><span class="info-label">招生</span><span class="info-value">参与政府统筹，九龙城校网</span></div>
+      <div class="info-row"><span class="info-label">报名</span><span class="info-value pending">关注官网及政府统筹时间表</span></div>
+    </div>
+    <div class="card-footer">
+      <a class="card-link" href="https://www.plklht.edu.hk/" target="_blank">📋 查看官网</a>
+    </div>
+  </div>
+
+  <!-- 15. 保良局林文灿 -->
+  <div class="school-card" data-cat="backup">
+    <div class="card-header">
+      <div class="rank-badge silver">15</div>
+      <div class="card-title-block">
+        <div class="card-name">保良局林文灿英文小学</div>
+        <div class="card-name-en">PLK Lam Man Chan English Primary School</div>
+        <div class="card-tags">
+          <span class="tag tag-type">资助</span>
+          <span class="tag tag-district">沙田</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="info-row"><span class="info-label">STEAM ⭐</span><span class="stars">★★★☆☆</span></div>
+      <div class="info-row"><span class="info-label">压力指数</span><div class="stress-bar"><div class="stress-dot filled"></div><div class="stress-dot"></div><div class="stress-dot"></div><div class="stress-dot"></div><div class="stress-dot"></div></div></div>
+      <div class="info-row"><span class="info-label">招生</span><span class="info-value">参与政府统筹，英文授课</span></div>
+      <div class="info-row"><span class="info-label">报名</span><span class="info-value pending">关注官网及政府统筹时间表</span></div>
+    </div>
+    <div class="card-footer">
+      <a class="card-link" href="https://plklmceps.edu.hk/" target="_blank">📋 查看官网</a>
+    </div>
+  </div>
+
+  <!-- 16. 地利亚闽侨 -->
+  <div class="school-card" data-cat="backup">
+    <div class="card-header">
+      <div class="rank-badge silver">16</div>
+      <div class="card-title-block">
+        <div class="card-name">地利亚（闽侨）英文小学</div>
+        <div class="card-name-en">Delia (Min Kuo) English Primary School</div>
+        <div class="card-tags">
+          <span class="tag tag-type">私立</span>
+          <span class="tag tag-district">旺角</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="info-row"><span class="info-label">STEAM ⭐</span><span class="stars">★★★☆☆</span></div>
+      <div class="info-row"><span class="info-label">压力指数</span><div class="stress-bar"><div class="stress-dot filled"></div><div class="stress-dot"></div><div class="stress-dot"></div><div class="stress-dot"></div><div class="stress-dot"></div></div></div>
+      <div class="info-row"><span class="info-label">报名</span><span class="info-value pending">2027/28年度待公布，关注官网</span></div>
+    </div>
+    <div class="card-footer">
+      <a class="card-link" href="https://www.deliamk.edu.hk/" target="_blank">📋 查看官网</a>
+    </div>
+  </div>
+
+</div>
+
+<!-- ===== SECTION: CAUTION ===== -->
+<div class="section-title">⚠️ 有保留 — 仅监控</div>
+<div class="cards-grid" id="cards-caution">
+
+  <!-- 17. 英华小学 -->
+  <div class="school-card urgent" data-cat="caution">
+    <div class="urgent-badge">⚠️ 窗口仅5天！</div>
+    <div class="card-header">
+      <div class="rank-badge warn">17</div>
+      <div class="card-title-block">
+        <div class="card-name">英华小学</div>
+        <div class="card-name-en">Ying Wa Primary School</div>
+        <div class="card-tags">
+          <span class="tag tag-type">直资</span>
+          <span class="tag tag-district">深水埗</span>
+          <span class="tag tag-gender">男校</span>
+          <span class="tag tag-dragon">直升英华书院</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="info-row"><span class="info-label">STEAM ⭐</span><span class="stars">★★★★☆</span></div>
+      <div class="info-row"><span class="info-label">压力指数</span><div class="stress-bar"><div class="stress-dot filled"></div><div class="stress-dot filled"></div><div class="stress-dot filled"></div><div class="stress-dot filled"></div><div class="stress-dot"></div></div></div>
+      <div class="info-row"><span class="info-label">简介会</span><span class="info-value highlight">2026/27参考：2025年7月12日；2027/28预计2026年7月</span></div>
+      <div class="info-row"><span class="info-label">报名</span><span class="info-value highlight">⚠️报名窗口仅约5天！2026/27参考：2025年8月30日–9月5日</span></div>
+      <div class="info-row"><span class="info-label">注意</span><span class="info-value" style="color:#dc2626">男校，一条龙直升英华书院 Band 1A，竞争极激烈</span></div>
+    </div>
+    <div class="card-footer">
+      <a class="card-link" href="https://www.yingwaps.edu.hk/tc/content.php?wid=21" target="_blank">📋 查看招生详情</a>
+    </div>
+  </div>
+
+  <!-- 18. 九龙真光 -->
+  <div class="school-card female" data-cat="caution">
+    <div class="card-header">
+      <div class="rank-badge" style="background:#db2777">18</div>
+      <div class="card-title-block">
+        <div class="card-name">九龙真光小学</div>
+        <div class="card-name-en">Kowloon True Light Primary School</div>
+        <div class="card-tags">
+          <span class="tag tag-type">直资</span>
+          <span class="tag tag-district">九龙城</span>
+          <span class="tag tag-gender">女校</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="info-row"><span class="info-label">STEAM ⭐</span><span class="stars">★★★☆☆</span></div>
+      <div class="info-row"><span class="info-label">注意</span><span class="info-value" style="color:#db2777">⚠️ 女校，男宝不适用，仅作参考信息</span></div>
+      <div class="info-row"><span class="info-label">报名</span><span class="info-value pending">关注官网</span></div>
+    </div>
+    <div class="card-footer">
+      <a class="card-link" href="https://www.ktlsps.edu.hk/admission/" target="_blank">📋 查看官网</a>
+    </div>
+  </div>
+
+  <!-- 19. 保良局蔡继有 -->
+  <div class="school-card" data-cat="caution">
+    <div class="card-header">
+      <div class="rank-badge warn">19</div>
+      <div class="card-title-block">
+        <div class="card-name">保良局蔡继有学校</div>
+        <div class="card-name-en">PLK Choi Kai Yau School</div>
+        <div class="card-tags">
+          <span class="tag tag-type">私立</span>
+          <span class="tag tag-district">深水埗</span>
+          <span class="tag tag-dragon">一条龙</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="info-row"><span class="info-label">STEAM ⭐</span><span class="stars">★★★★☆</span></div>
+      <div class="info-row"><span class="info-label">压力指数</span><div class="stress-bar"><div class="stress-dot filled"></div><div class="stress-dot filled"></div><div class="stress-dot filled"></div><div class="stress-dot"></div><div class="stress-dot"></div></div></div>
+      <div class="info-row"><span class="info-label">最新动态</span><span class="info-value">2026年3月6日发布招生公告更新</span></div>
+      <div class="info-row"><span class="info-label">报名</span><span class="info-value pending">2027/28年度待公布</span></div>
+      <div class="info-row"><span class="info-label">注意</span><span class="info-value" style="color:#dc2626">竞争极激烈，学位极少，须有心理准备</span></div>
+      <div class="info-row"><span class="info-label">联系</span><span class="info-value">📞 2148-2052 | info@cky.edu.hk</span></div>
+    </div>
+    <div class="card-footer">
+      <a class="card-link" href="http://cky.edu.hk/admissions/admissions-news/" target="_blank">📋 查看招生详情</a>
+    </div>
+  </div>
+
+  <!-- 20. 启基学校 -->
+  <div class="school-card" data-cat="caution">
+    <div class="card-header">
+      <div class="rank-badge warn">20</div>
+      <div class="card-title-block">
+        <div class="card-name">启基学校</div>
+        <div class="card-name-en">Kiangsu-Chekiang College (Primary)</div>
+        <div class="card-tags">
+          <span class="tag tag-type">私立</span>
+          <span class="tag tag-district">北角</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="info-row"><span class="info-label">STEAM ⭐</span><span class="stars">★★★☆☆</span></div>
+      <div class="info-row"><span class="info-label">注意</span><span class="info-value" style="color:#dc2626">⚠️ 超预算（学费约$10万以上），仅作监控参考</span></div>
+      <div class="info-row"><span class="info-label">报名</span><span class="info-value pending">关注官网</span></div>
+    </div>
+    <div class="card-footer">
+      <a class="card-link" href="https://www.kccps.edu.hk/" target="_blank">📋 查看官网</a>
+    </div>
+  </div>
+
+</div>
+
+<!-- ===== LEGEND ===== -->
+<div style="padding: 12px 16px; background: white; margin: 0 16px 16px; border-radius: 12px; border: 1px solid var(--gray-200); font-size: 0.8rem; color: var(--gray-600);">
+  <strong>图例说明：</strong>
+  压力指数 🔴 = 高压 / STEAM ★★★★★ = 极强 |
+  <span style="color:var(--danger)">红色边框</span> = 紧急留意 |
+  <span style="color:#f59e0b">橙色边框</span> = 有新动态 |
+  <span style="font-style:italic;color:var(--warning)">斜体</span> = 待公布
+</div>
+
+<footer>
+  本报告仅供参考，招生资讯以各学校官方公告为准。<br>
+  目标学生：男宝·2021年5月生 | 下次建议检查：<strong>2026年4月10日</strong>（届时王锦辉/优才书院有望公布2027/28简介会消息）<br>
+  数据来源：学校官网、HK01、skoolyhk.com、The Think Academy（截至2026年3月10日）
+</footer>
+
+<script>
+  function filterCards(cat) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    event.target.classList.add('active');
+    const cards = document.querySelectorAll('.school-card');
+    cards.forEach(card => {
+      if (cat === 'all') {
+        card.style.display = '';
+      } else if (cat === 'top') {
+        card.style.display = card.dataset.cat === 'top' ? '' : 'none';
+      } else if (cat === 'recommended') {
+        card.style.display = card.dataset.cat === 'recommended' ? '' : 'none';
+      } else if (cat === 'backup') {
+        card.style.display = card.dataset.cat === 'backup' ? '' : 'none';
+      } else if (cat === 'caution') {
+        card.style.display = card.dataset.cat === 'caution' ? '' : 'none';
+      }
+    });
+
+    // Show/hide section titles
+    const sections = {
+      'top': document.querySelectorAll('.section-title')[0],
+      'recommended': document.querySelectorAll('.section-title')[1],
+      'backup': document.querySelectorAll('.section-title')[2],
+      'caution': document.querySelectorAll('.section-title')[3]
+    };
+    if (cat === 'all') {
+      Object.values(sections).forEach(s => { if(s) s.style.display = ''; });
+    } else {
+      Object.keys(sections).forEach(k => {
+        if(sections[k]) sections[k].style.display = k === cat ? '' : 'none';
+      });
+    }
+  }
+</script>
+</body>
+</html>
